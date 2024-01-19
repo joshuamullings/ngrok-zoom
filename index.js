@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const app = express();
 
-const { NGROK_AUTH_TOKEN, PORT } = process.env;
+const { NGROK_AUTH_TOKEN, PORT, ZOOM_SECRET_TOKEN } = process.env;
 
 app.use(bodyParser.json());
 
@@ -20,7 +20,7 @@ app.post("/hook", (req, res) => {
 
     if (req.body.event === "endpoint.url_validation") {
         const hashForValidate = crypto
-            .createHmac("sha256", "iKaJiIqpQDmUpqOyPwsOfQ")
+            .createHmac("sha256", ZOOM_SECRET_TOKEN)
             .update(req.body.payload.plainToken)
             .digest("hex");
 
