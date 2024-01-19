@@ -25,6 +25,18 @@ app.post("/hook", (req, res) => {
             .digest("hex");
 
         res.header("Content-Type", "text/html; charset=utf-8");
+        res.header("Connection", "keep-alive");
+        res.header("X-Powered-By", "Express");
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header(
+            "Content-Length",
+            JSON.stringify({
+                plainToken: req.body.payload.plainToken,
+                encryptedToken: hashForValidate,
+            }).length
+        );
+
+        console.log(JSON.stringify(res.getHeaders(), null, 4));
 
         res.status(200).json({
             plainToken: req.body.payload.plainToken,
